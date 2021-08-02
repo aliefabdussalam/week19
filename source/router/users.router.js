@@ -1,13 +1,15 @@
-const express = require('express')
-const { getlist, getdetail, insert, update, destroy,  } = require('../controller/users')
+const express = require('express');
+const {
+  getlist, getdetail, insert, update, destroy,
+} = require('../controller/users');
+const midauth = require('../middleware/authentication');
 
-
-const router =express.Router()
+const router = express.Router();
 router
-.get('/user', getlist)
-.get('/user/:id', getdetail)
-.post('/user', insert)
-.put('/user/:id', update)
-.delete('/user/:id', destroy)
+  .get('/user', midauth, getlist)
+  .get('/user/:id', midauth, getdetail)
+  .post('/user', midauth, insert)
+  .put('/user/:id', midauth, update)
+  .delete('/user/:id', midauth, destroy);
 
-module.exports = router
+module.exports = router;

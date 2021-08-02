@@ -1,0 +1,19 @@
+for localhost
+.get
+localhost:8800/endpoint/
+.put
+localhost:8800/endpoint/:id
+.post
+localhost:8800/endpoint/
+.delete
+localhost:8800/endpoint/id
+
+for aws
+.get
+ippublic:8800/endpoint/
+.put
+ippublic:8800/endpoint/:id
+.post
+ippublic:8800/endpoint/
+.delete
+ippublic:8800/endpoint/id
