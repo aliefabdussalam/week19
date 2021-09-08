@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const registermodel = require('../model/register.model');
 const { success, failed } = require('../helper/respon');
 
@@ -19,6 +20,7 @@ const register = {
             emailAddress: body.emailAddress,
             deliveryAddress: body.deliveryAddress,
             numberPhone: body.numberPhone,
+            level: body.level,
             password: hash,
           };
 
@@ -45,7 +47,12 @@ const register = {
             if (error) {
               res.json(error);
             } else if (checkpass === true) {
-              success(res, 'token = 456', 'Login successfull');
+              const user = result[0];
+              const payload = {
+                id: user.id,
+              };
+              const token = jwt.sign(payload, 'secret');
+              success(res, token, 'Login successfull');
             } else {
               res.json('password incorrect');
             }

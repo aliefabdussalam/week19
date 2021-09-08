@@ -1,6 +1,16 @@
+const _ = require('lodash');
+const redis = require('redis');
 const usermodel = require('../model/users.model');
 const { success, failed } = require('../helper/respon');
 
+// const redisAction = require('../helper/redis');
+const client = redis.createClient({
+  host: '127.0.0.1', // localhost
+  port: 6379,
+});
+client.on('error', (err) => {
+  console.log(err);
+});
 const user = {
 
   getlist: (req, res) => {
@@ -11,22 +21,38 @@ const user = {
       const typeSort = query.sort === undefined ? 'ASC' : query.sort;
       const limit = query.limit === undefined ? 5 : query.limit;
       const offset = query.page === undefined || query.page === 1 ? 0 : (query.page - 1) * limit;
-      usermodel.getlist(search, field, typeSort, limit, offset).then(async (result) => {
-        const alldata = await usermodel.getAllData();
-        const response = {
-          data: result,
-          totalpage: Math.ceil(alldata.length / limit),
-          limit,
-          page: req.query.page,
-        };
-        //    res.json(result)
-        success(res, response, 'success');
-      }).catch((err) => {
-        res.json(err);
+      client.get('users', (errRedis, resultRedis) => {
+        if (errRedis) {
+          failed(res, 404);
+        } else if (!resultRedis) {
+          usermodel.getlist(search, field, typeSort, limit, offset).then(async (result) => {
+            const alldata = await usermodel.getAllData();
+            const output = {
+              data: result,
+              totalpage: Math.ceil(alldata.length / limit),
+              limit,
+              page: req.query.page,
+            };
+            client.set('users', JSON.stringify(result));
+            success(res, output, 'success');
+          }).catch((err) => {
+            res.json(err);
+          });
+        } else {
+          const response = JSON.parse(resultRedis);
+          const dataFilter = _.filter(response, (e) => e.display_name.includes(search));
+          const paginated = _.slice(dataFilter, offset, offset + limit);
+          const output = {
+            data: paginated,
+            totalpage: Math.ceil(response.length / limit),
+          };
+          success(res, output, 'berhasil');
+        }
       });
     } catch (error) {
       // res.json(error)
       failed(res, 404);
+      console.log(error);
     }
   },
   getdetail: (req, res) => {

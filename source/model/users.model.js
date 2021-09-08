@@ -1,4 +1,6 @@
 const db = require('../config/db');
+const client = require('../helper/redis');
+// const redisAction = require('../helper/redis');
 
 const usermodel = {
   getAllData: () => new Promise((resolve, reject) => {
@@ -64,5 +66,11 @@ const usermodel = {
       });
     },
   ),
+  setRedis: (req, res) => {
+    db.query('select * from users', (err, result) => {
+      client.set('users', JSON.stringify(result));
+      res.json(result);
+    });
+  },
 };
 module.exports = usermodel;
