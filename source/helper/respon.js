@@ -7,7 +7,7 @@ const response = {
       code: 200,
       message,
     };
-    res.json(Response);
+    res.status(200).json(Response);
   },
   failed: (res, code) => {
     if (code === 404) {
@@ -25,7 +25,7 @@ const response = {
         code: 401,
         message: 'unauthorized',
       };
-      res.json(failed);
+      res.status(401).json(failed);
     } if (code === 402) {
       const failed = {
         success: false,

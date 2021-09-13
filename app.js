@@ -22,3 +22,5 @@ app.use(routerregister);
 app.listen(8800, () => {
   console.log('connect to 8800');
 });
+
+module.exports = app;

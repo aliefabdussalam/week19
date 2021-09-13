@@ -8,10 +8,10 @@ const { setRedis } = require('../model/users.model');
 
 const router = express.Router();
 router
-  .get('/user', midauth, getlist)
+  .get('/user', getlist)
   .get('/user/:id', midauth, getdetail)
-  .post('/user', midauth, insert)
-  .put('/user/:id', midauth, update)
+  .post('/user', insert)
+  .put('/user/:id', update)
   .delete('/user/:id', midauth, authorization.isAdmin, destroy)
   .post('/set-redis', setRedis);
 

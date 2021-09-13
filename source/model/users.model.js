@@ -9,6 +9,7 @@ const usermodel = {
         reject(err);
       } else {
         resolve(result);
+        client.set('users', JSON.stringify(result));
       }
     });
   }),

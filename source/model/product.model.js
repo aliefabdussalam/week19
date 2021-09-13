@@ -46,24 +46,29 @@ const productmodel = {
       });
     },
   ),
-  transaction: (idtransaction, idTransDtl, idUser, address,
+  transaction: (idTransDtl, idUser, address, details,
     payment, subtotal, tax, shipping) => new Promise(
     (resolve, reject) => {
       db.query(`insert into transaksi (id_transaction, id_user, address, payment, subtotal, tax, shiping) value ("${idTransDtl}","${idUser}","${address}","${payment}","${subtotal}","${tax}","${shipping}")`, (err, result) => {
         if (err) {
           reject(err);
         } else {
-          resolve(result);
-        }
-      });
-    },
-  ),
-  transactiondtl: (idtransactiondtl, productId, qty, price) => new Promise(
-    (resolve, reject) => {
-      db.query(`insert into transaksi_dtl (id_product, qty, price) value ("${productId}", "${qty}", "${price}")`, (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
+          // const idtransaction = result.insertId;
+          // const insertdetail = details.map((e) => {
+          //   db.query(`
+          //   insert into transaksi_dtl
+          //   (id_product, qty, price, id_transaction)
+          //   value
+          //   ('${e.idProduct}', '${e.price}', '${e.qty}', '${idtransaction}')
+          //   `, (error, result) => {
+          //     if (error) {
+          //       console.log(err);
+          //     } else {
+          //       return
+          //     }
+          //   });
+          // });
+
           resolve(result);
         }
       });

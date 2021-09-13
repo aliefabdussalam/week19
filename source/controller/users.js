@@ -33,7 +33,6 @@ const user = {
               limit,
               page: req.query.page,
             };
-            client.set('users', JSON.stringify(result));
             success(res, output, 'success');
           }).catch((err) => {
             res.json(err);

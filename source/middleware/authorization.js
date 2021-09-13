@@ -9,7 +9,7 @@ const authorization = {
       } else if (result[0].level === 0) {
         next();
       } else {
-        res.json({
+        res.status(401).json({
           msg: 'you must be admin',
         });
       }

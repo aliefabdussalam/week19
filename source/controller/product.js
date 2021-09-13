@@ -130,17 +130,13 @@ const product = {
   },
   transaction: (req, res) => {
     try {
-      const { body } = req;
+      const {
+        idUser, address, details,
+        payment, subtotal, tax, shipping,
+      } = req.body;
       const idtransaction = req.params.id;
-      const { idTransDtl } = body;
-      const { idUser } = body;
-      const { address } = body;
-      const { payment } = body;
-      const { subtotal } = body;
-      const { tax } = body;
-      const { shipping } = body;
-      productmodel.transaction(idtransaction, idTransDtl, idUser, address,
-        payment, subtotal, tax, shipping)
+      productmodel.transaction(idtransaction, idUser, address,
+        details, payment, subtotal, tax, shipping)
         .then((result) => {
           success(res, result, 'success');
         }).catch((err) => {
@@ -155,10 +151,9 @@ const product = {
     try {
       const { body } = req;
       const idtransactiondtl = req.params.id;
-      const { productId } = body;
-      const { qty } = body;
-      const { price } = body;
-      productmodel.transactiondtl(idtransactiondtl, productId, qty, price)
+      const { productId, qty, price } = body;
+      const { idtransaction } = body;
+      productmodel.transactiondtl(idtransactiondtl, productId, qty, price, idtransaction)
         .then((result) => {
           success(res, result, 'success');
         }).catch((err) => {
