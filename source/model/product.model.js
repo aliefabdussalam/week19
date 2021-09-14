@@ -8,6 +8,7 @@ const productmodel = {
         reject(err);
       } else {
         resolve(result);
+        client.set('product', JSON.stringify(result));
       }
     });
   }),
@@ -48,31 +49,34 @@ const productmodel = {
   ),
   transaction: (idTransDtl, idUser, address, details,
     payment, subtotal, tax, shipping) => new Promise(
-    (resolve, reject) => {
-      db.query(`insert into transaksi (id_transaction, id_user, address, payment, subtotal, tax, shiping) value ("${idTransDtl}","${idUser}","${address}","${payment}","${subtotal}","${tax}","${shipping}")`, (err, result) => {
+    ((resolve, reject) => {
+      db.query(`insert into transaksi (id_user, address, payment, subtotal, tax, shiping) value ("${idUser}","${address}","${payment}","${subtotal}","${tax}","${shipping}")`, (err, result) => {
         if (err) {
           reject(err);
         } else {
-          // const idtransaction = result.insertId;
-          // const insertdetail = details.map((e) => {
-          //   db.query(`
-          //   insert into transaksi_dtl
-          //   (id_product, qty, price, id_transaction)
-          //   value
-          //   ('${e.idProduct}', '${e.price}', '${e.qty}', '${idtransaction}')
-          //   `, (error, result) => {
-          //     if (error) {
-          //       console.log(err);
-          //     } else {
-          //       return
-          //     }
-          //   });
-          // });
+          const idtransaction = result.insertId;
+          // eslint-disable-next-line arrow-body-style
+          details.map((e) => {
+            return db.query(`
+            insert into transaksi_dtl
+            (id_product, qty, price, id_transaction)
+            value
+            ('${e.idProduct}', '${e.qty}', '${e.price}', '${idtransaction}')
+           `,
+            // eslint-disable-next-line no-unused-vars
+            (error, resultdetail) => {
+              if (error) {
+                console.log(err);
+              } else {
+                console.log(result);
+              }
+            });
+          });
 
           resolve(result);
         }
       });
-    },
+    }),
   ),
   destroy: (id) => new Promise((resolve, reject) => {
     db.query(`delete from product where id="${id}"`, (err, result) => {
@@ -94,12 +98,6 @@ const productmodel = {
       });
     },
   ),
-  setprdRedis: (req, res) => {
-    db.query('select * from product', (err, result) => {
-      client.set('product', JSON.stringify(result));
-      res.json(result);
-    });
-  },
   getAllDatatrans: () => new Promise((resolve, reject) => {
     db.query('select * from transaksi', (err, result) => {
       if (err) {

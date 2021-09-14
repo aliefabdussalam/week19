@@ -67,11 +67,5 @@ const usermodel = {
       });
     },
   ),
-  setRedis: (req, res) => {
-    db.query('select * from users', (err, result) => {
-      client.set('users', JSON.stringify(result));
-      res.json(result);
-    });
-  },
 };
 module.exports = usermodel;

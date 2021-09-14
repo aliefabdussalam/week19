@@ -26,22 +26,6 @@ const response = {
         message: 'unauthorized',
       };
       res.status(401).json(failed);
-    } if (code === 402) {
-      const failed = {
-        success: false,
-        data: null,
-        code: 402,
-        message: 'payment requirement',
-      };
-      res.json(failed);
-    } if (code === 400) {
-      const failed = {
-        success: false,
-        data: null,
-        code: 400,
-        message: 'bad request',
-      };
-      res.json(failed);
     }
   },
 };

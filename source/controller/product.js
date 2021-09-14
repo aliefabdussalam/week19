@@ -11,7 +11,17 @@ client.on('error', (err) => {
   console.log(err);
 });
 const product = {
-
+  getAllData: (req, res) => {
+    try {
+      productmodel.getAllData().then((result) => {
+        success(res, result, 'success');
+      }).catch((err) => {
+        failed(res, 404, err);
+      });
+    } catch (error) {
+      failed(res, 401, error);
+    }
+  },
   getlist: (req, res) => {
     try {
       const { query } = req;
@@ -32,7 +42,6 @@ const product = {
               limit,
               page: req.query.page,
             };
-            client.set('product', JSON.stringify(result));
             success(res, output, 'success');
           }).catch((err) => {
             res.json(err);
@@ -145,22 +154,7 @@ const product = {
         });
     } catch (err) {
       failed(res, 401, err);
-    }
-  },
-  transactiondtl: (req, res) => {
-    try {
-      const { body } = req;
-      const idtransactiondtl = req.params.id;
-      const { productId, qty, price } = body;
-      const { idtransaction } = body;
-      productmodel.transactiondtl(idtransactiondtl, productId, qty, price, idtransaction)
-        .then((result) => {
-          success(res, result, 'success');
-        }).catch((err) => {
-          failed(res, 404, err);
-        });
-    } catch (err) {
-      failed(res, 401, err);
+      console.log(err);
     }
   },
   getdataTransaction: (req, res) => {

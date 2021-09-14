@@ -5,7 +5,23 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "coverage": "nyc --all --reporter=html mocha"
+    "coverage": "nyc --all mocha"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "all": true,
+    "extension": [
+      ".js"
+    ],
+    "include": [
+      "src/*/!(.test.*).[tj]s?(x)"
+    ],
+    "reporter": [
+      "html",
+      "lcov",
+      "text",
+      "text-summary"
+    ]
   },
   "author": "",
   "license": "ISC",

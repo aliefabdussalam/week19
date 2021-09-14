@@ -12,7 +12,17 @@ client.on('error', (err) => {
   console.log(err);
 });
 const user = {
-
+  getAllData: (req, res) => {
+    try {
+      usermodel.getAllData().then((result) => {
+        success(res, result, 'success');
+      }).catch((err) => {
+        failed(res, 404, err);
+      });
+    } catch (error) {
+      failed(res, 401, error);
+    }
+  },
   getlist: (req, res) => {
     try {
       const { query } = req;
@@ -58,7 +68,11 @@ const user = {
     const { id } = req.params;
     try {
       usermodel.getdetail(id).then((result) => {
-        success(res, result, 'success');
+        if (result.length <= 0) {
+          failed(res, 404);
+        } else {
+          success(res, result, 'success');
+        }
       }).catch((err) => {
         failed(res, 404, err);
       });

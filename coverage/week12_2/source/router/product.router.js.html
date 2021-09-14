@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -77,20 +77,16 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -100,32 +96,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express');
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = <span class="cstat-no" title="statement not covered" >require('express');</span>
 const {
-  getlist, getdetail, insert, update, destroy, transaction, transactiondtl, getdataTransaction,
-} = require('../controller/product');
-const midauth = require('../middleware/authentication');
-const authorization = require('../middleware/authorization');
-const upload = require('../middleware/upload');
-const { setprdRedis } = require('../model/product.model');
+  getlist, getdetail, insert, update, destroy, transaction, getdataTransaction, getAllData,
+} = <span class="cstat-no" title="statement not covered" >require('../controller/product');</span>
+const midauth = <span class="cstat-no" title="statement not covered" >require('../middleware/authentication');</span>
+const authorization = <span class="cstat-no" title="statement not covered" >require('../middleware/authorization');</span>
+const upload = <span class="cstat-no" title="statement not covered" >require('../middleware/upload');</span>
 &nbsp;
-const router = express.Router();
-router
-&nbsp;
+const router = <span class="cstat-no" title="statement not covered" >express.Router();</span>
+<span class="cstat-no" title="statement not covered" >router</span>
+  .get('/product-all', getAllData)
   .post('/product/transaksi/', midauth, transaction)
-  .post('/product/transaksidtl/', midauth, transactiondtl)
   .get('/product/transaksi', getdataTransaction)
   .get('/product', midauth, getlist)
   .get('/product/:id', midauth, getdetail)
   .post('/product', midauth, authorization.isAdmin, upload, insert)
   .put('/product/:id', midauth, authorization.isAdmin, upload, update)
-  .delete('/product/:id', midauth, authorization.isAdmin, destroy)
-  .post('/set-prd-redis', setprdRedis);
+  .delete('/product/:id', midauth, authorization.isAdmin, destroy);
 &nbsp;
-module.exports = router;
+<span class="cstat-no" title="statement not covered" >module.exports = router;</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -133,7 +124,7 @@ module.exports = router;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Sep 13 2021 06:01:29 GMT+0700 (Western Indonesia Time)
+                at Tue Sep 14 2021 10:35:41 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../../prettify.js"></script>

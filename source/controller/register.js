@@ -40,7 +40,7 @@ const register = {
       const { body } = req;
       registermodel.login(body).then((result) => {
         if (result.length <= 0) {
-          res.json('email not found');
+          res.status(404).json('email not found');
         } else {
           const hash = result[0].password;
           bcrypt.compare(body.password, hash, (error, checkpass) => {
@@ -58,8 +58,6 @@ const register = {
             }
           });
         }
-      }).catch((error) => {
-        failed(res, 404, error);
       });
     } catch (error) {
       failed(res, 401, error);
