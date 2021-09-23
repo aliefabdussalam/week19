@@ -38,6 +38,7 @@ const register = {
   login: (req, res) => {
     try {
       const { body } = req;
+      console.log(body);
       registermodel.login(body).then((result) => {
         if (result.length <= 0) {
           res.status(404).json('email not found');

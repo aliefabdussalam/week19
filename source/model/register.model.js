@@ -1,5 +1,4 @@
 const db = require('../config/db');
-const client = require('../helper/redis');
 
 const registermodel = {
   insert: (data) => new Promise((resolve, reject) => {
@@ -13,9 +12,7 @@ const registermodel = {
         reject(err);
       } else {
         // eslint-disable-next-line no-shadow
-        resolve(result, db.query('select * from users', (err, resultredis) => {
-          client.set('users', JSON.stringify(resultredis));
-        }));
+        resolve(result, db.query('select * from users'));
       }
     });
   }),
