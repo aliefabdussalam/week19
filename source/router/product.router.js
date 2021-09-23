@@ -12,9 +12,9 @@ router
   .post('/product/transaksi/', midauth, transaction)
   .get('/product/transaksi', getdataTransaction)
   .get('/product', getlist)
-  .get('/product/:id', midauth, getdetail)
+  .get('/product/:id', getdetail)
   .post('/product', midauth, authorization.isAdmin, upload, insert)
   .put('/product/:id', midauth, authorization.isAdmin, upload, update)
-  .delete('/product/:id', midauth, authorization.isAdmin, destroy);
+  .delete('/product/:id', destroy);
 
 module.exports = router;
