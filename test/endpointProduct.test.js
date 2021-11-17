@@ -4,8 +4,10 @@ const { expect } = require('chai');
 const fs = require('fs');
 const app = require('../app');
 
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTYzMTU0NjgyOH0.AKnzDiEGk_low3h8fYvjujZFLQbpH4IbbF5y7ZxA2o0';
+
 describe('test endpoint product true', () => {
-  it('tget API', () => {
+  it('get API if true', () => {
     request(app)
       .get('/product-all')
       .expect('Content-Type', /json/)
@@ -17,9 +19,10 @@ describe('test endpoint product true', () => {
         console.log(err);
       });
   });
-  it('get list redis', () => {
+  it('get list redis if true', () => {
     request(app)
       .get('/product?search=%a%&')
+      .set('token', token)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -31,7 +34,7 @@ describe('test endpoint product true', () => {
         console.log(err);
       });
   });
-  it('transaksi', () => {
+  it('transaction if true', () => {
     const payload = {
       idUser: 2,
       address: 'pajang',
@@ -54,7 +57,7 @@ describe('test endpoint product true', () => {
     };
     request(app)
       .post('/product/transaksi')
-      .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMsImlhdCI6MTYzMTU1NzQ0M30.CTx2BNjQuHo_vHKM3FRT5Rc8mFIWS_Y5Gt4QNoBX8zA')
+      .set('token', token)
       .send(payload)
       .expect('Content-Type', /json/)
       .expect(200)
@@ -66,10 +69,10 @@ describe('test endpoint product true', () => {
         console.log(err);
       });
   });
-  it('get list', () => {
+  it('get list search limit pagination if true', () => {
     request(app) // redis not covered yet
       .get('/product?search=%a%&limit=5&page=2')
-      .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTYzMTU0NjgyOH0.AKnzDiEGk_low3h8fYvjujZFLQbpH4IbbF5y7ZxA2o0')
+      .set('token', token)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -81,10 +84,10 @@ describe('test endpoint product true', () => {
         console.log(err);
       });
   });
-  it('get detail', () => {
+  it('get detail product if true', () => {
     request(app) // redis not covered yet
       .get('/product/2')
-      .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTYzMTU0NjgyOH0.AKnzDiEGk_low3h8fYvjujZFLQbpH4IbbF5y7ZxA2o0')
+      .set('token', token)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -96,10 +99,10 @@ describe('test endpoint product true', () => {
         console.log(err);
       });
   });
-  it('get transaksi', () => {
+  it('get all transaction if true', () => {
     request(app) // redis not covered yet
       .get('/product/transaksi')
-      .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTYzMTU0NjgyOH0.AKnzDiEGk_low3h8fYvjujZFLQbpH4IbbF5y7ZxA2o0')
+      .set('token', token)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -111,7 +114,7 @@ describe('test endpoint product true', () => {
         console.log(err);
       });
   });
-  it('post prd', () => {
+  it('post product with file if true', () => {
     const filepath = `${__dirname}/helper/img/5930520.png`;
     fs.exists(filepath, (exists) => {
       if (!exists) {
@@ -119,7 +122,7 @@ describe('test endpoint product true', () => {
       } else {
         request(app)
           .post('/product')
-          .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTYzMTU0NjgyOH0.AKnzDiEGk_low3h8fYvjujZFLQbpH4IbbF5y7ZxA2o0')
+          .set('token', token)
           .field('productName', 'sayur')
           .field('price', '50000')
           .field('description', 'enak')
@@ -138,7 +141,7 @@ describe('test endpoint product true', () => {
       }
     });
   });
-  it('put prd', () => {
+  it('put product with file if true', () => {
     const filepath = `${__dirname}/helper/img/5930520.png`;
     fs.exists(filepath, (exists) => {
       if (!exists) {
@@ -146,7 +149,7 @@ describe('test endpoint product true', () => {
       } else {
         request(app)
           .put('/product/14')
-          .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTYzMTU0NjgyOH0.AKnzDiEGk_low3h8fYvjujZFLQbpH4IbbF5y7ZxA2o0')
+          .set('token', token)
           .field('productName', 'sayur')
           .field('price', '50000')
           .field('description', 'enak')
@@ -165,10 +168,10 @@ describe('test endpoint product true', () => {
       }
     });
   });
-  it('del product', () => {
+  it('destroy product if true', () => {
     request(app) // redis not covered yet
       .delete('/product/10')
-      .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTYzMTU0NjgyOH0.AKnzDiEGk_low3h8fYvjujZFLQbpH4IbbF5y7ZxA2o0')
+      .set('token', token)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -181,7 +184,7 @@ describe('test endpoint product true', () => {
       });
   });
 });
-describe('test endpoint users false', () => {
+describe('test endpoint product false', () => {
   it('put prd img format unknown', () => {
     const filepath = `${__dirname}/helper/img/app.js`;
     fs.exists(filepath, (exists) => {
@@ -190,7 +193,7 @@ describe('test endpoint users false', () => {
       } else {
         request(app)
           .put('/product/14')
-          .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTYzMTU0NjgyOH0.AKnzDiEGk_low3h8fYvjujZFLQbpH4IbbF5y7ZxA2o0')
+          .set('token', token)
           .field('productName', 'sayur')
           .field('price', '50000')
           .field('description', 'enak')
@@ -198,15 +201,27 @@ describe('test endpoint users false', () => {
           .field('stock', '50')
           .attach('image', filepath)
           .expect('Content-Type', /json/)
-          .expect(200)
           .then((response) => {
             expect(response.body).to.be.a('object');
-            expect(response.body).to.have.property('data');
+            expect(response.body).to.have.property('message');
           })
           .catch((err) => {
             console.log(err);
           });
       }
     });
+  });
+  it('get detail product if product empty', () => {
+    request(app) // redis not covered yet
+      .get('/product/500000')
+      .set('token', token)
+      .expect('Content-Type', /json/)
+      .then((response) => {
+        expect(response.body).to.be.a('object');
+        expect(response.body).to.have.property('message');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
 });

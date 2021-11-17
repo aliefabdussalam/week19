@@ -109,6 +109,9 @@ const product = {
     try {
       const { id } = req.params;
       productmodel.destroy(id).then((result) => {
+        client.del('product', (err, respon) => {
+          console.log('Redis Del', respon);
+        });
         success(res, result, 'success');
       }).catch((err) => {
         failed(res, 404, err);
@@ -126,9 +129,12 @@ const product = {
       const { description } = body;
       const { category } = body;
       const { stock } = body;
-      const { image } = body;
+      const image = req.file.filename;
       productmodel.update(idproduct, productName, price, description, category, stock, image)
         .then((result) => {
+          client.del('product', (err, respon) => {
+            console.log('Redis Del', respon);
+          });
           success(res, result, 'success');
         }).catch((err) => {
           failed(res, 404, err);

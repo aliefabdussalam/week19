@@ -3,8 +3,11 @@ const request = require('supertest');
 const { expect } = require('chai');
 const app = require('../app');
 
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTYzMTU0NjgyOH0.AKnzDiEGk_low3h8fYvjujZFLQbpH4IbbF5y7ZxA2o0';
+const tokenuser = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMsImlhdCI6MTYzMTU1NzQ0M30.CTx2BNjQuHo_vHKM3FRT5Rc8mFIWS_Y5Gt4QNoBX8zA';
+
 describe('test endpoint users true', () => {
-  it('get list redis', () => {
+  it('get list redis with query search', () => {
     request(app)
       .get('/user?search=%zubair%')
       .expect(200)
@@ -17,7 +20,7 @@ describe('test endpoint users true', () => {
         console.log(err);
       });
   });
-  it('tget API', () => {
+  it('get API all if true', () => {
     request(app)
       .get('/user-all')
       .expect('Content-Type', /json/)
@@ -29,7 +32,7 @@ describe('test endpoint users true', () => {
         console.log(err);
       });
   });
-  it('get list', () => {
+  it('get list with query search, limit, sort and pagination', () => {
     request(app) // redis not covered yet
       .get('/user?search=%a%&limit=5&page=2&typesort=DESC')
       .expect('Content-Type', /json/)
@@ -43,10 +46,10 @@ describe('test endpoint users true', () => {
         console.log(err);
       });
   });
-  it('get detail', () => {
+  it('get detail user if true', () => {
     request(app) // redis not covered yet
       .get('/user/2')
-      .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTYzMDgyNDI4M30.2DGBRi_DBZGCM8GcQQtD5uaayMDShoT4B4Fl3aFRu-8')
+      .set('token', token)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -58,7 +61,7 @@ describe('test endpoint users true', () => {
         console.log(err);
       });
   });
-  it('register', () => {
+  it('register if true', () => {
     const payload = {
       displayName: 'ariel',
       firstName: 'ariel',
@@ -84,7 +87,7 @@ describe('test endpoint users true', () => {
         console.log(err);
       });
   });
-  it('user post', () => {
+  it('user post if true', () => {
     const payload = {
       displayName: 'ariel',
       firstName: 'ariel',
@@ -110,10 +113,11 @@ describe('test endpoint users true', () => {
         console.log(err);
       });
   });
-  it('login', () => {
+  it('login if true', () => {
     const payload = {
-      emailAddress: 'ariel@cba.com',
-      password: '1234567',
+      emailAddress: 'lalaland',
+      password: '123',
+      level: 1,
     };
     request(app)
       .post('/login')
@@ -128,7 +132,7 @@ describe('test endpoint users true', () => {
         console.log(err);
       });
   });
-  it('put', () => {
+  it('put user with no file', () => {
     const payload = {
       displayName: 'ariel',
       firstName: 'ariel',
@@ -154,10 +158,10 @@ describe('test endpoint users true', () => {
         console.log(err);
       });
   });
-  it('del user', () => {
+  it('destroy user', () => {
     request(app) // redis not covered yet
       .delete('/user/91')
-      .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTYzMTU0NjgyOH0.AKnzDiEGk_low3h8fYvjujZFLQbpH4IbbF5y7ZxA2o0')
+      .set('token', token)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((response) => {
@@ -175,7 +179,7 @@ describe('test endpoint users false', () => {
   it('get detail', () => {
     request(app) // redis not covered yet
       .get('/user/1000')
-      .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTYzMDgyNDI4M30.2DGBRi_DBZGCM8GcQQtD5uaayMDShoT4B4Fl3aFRu-8')
+      .set('token', token)
       .expect(404);
   });
   it('login email incorect', () => {
@@ -193,6 +197,7 @@ describe('test endpoint users false', () => {
     const payload = {
       emailAddress: 'user@cba.com',
       password: '787807867987078',
+      level: 1,
     };
     request(app)
       .post('/login')
@@ -200,10 +205,10 @@ describe('test endpoint users false', () => {
       .expect('Content-Type', /json/)
       .expect(404);
   });
-  it('del user', () => {
+  it('del user if token is user', () => {
     request(app) // redis not covered yet
       .delete('/user/91')
-      .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzMsImlhdCI6MTYzMTU1NzQ0M30.CTx2BNjQuHo_vHKM3FRT5Rc8mFIWS_Y5Gt4QNoBX8zA')
+      .set('token', tokenuser)
       .expect('Content-Type', /json/)
       .expect(401)
       .then((response) => {
