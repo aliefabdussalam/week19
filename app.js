@@ -19,7 +19,8 @@ app.use(routerUser);
 app.use(routerProduct);
 app.use(routerCategory);
 app.use(routerregister);
-app.listen(8800, () => {
+const PORT = 8800
+app.listen(process.env.PORT || PORT, () => {
   console.log('connect to 8800');
 });
 
